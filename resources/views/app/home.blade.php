@@ -20,7 +20,7 @@
                     </div>
                     <div class="stat-title font-bold">Total Links</div>
                     <div class="stat-value text-primary font-black">{{ $totalLinks }}</div>
-                    <div class="stat-desc font-medium">Jan 1st - Feb 1st</div>
+                    {{-- <div class="stat-desc font-medium">Jan 1st - Feb 1st</div> --}}
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                     </div>
                     <div class="stat-title font-bold">Total Clicks</div>
                     <div class="stat-value text-secondary font-black">{{ $totalClicks }}</div>
-                    <div class="stat-desc font-medium">↗︎ 400 (22%)</div>
+                    {{-- <div class="stat-desc font-medium">↗︎ 400 (22%)</div> --}}
                 </div>
             </div>
         </div>
@@ -56,18 +56,18 @@
                                 <tr :key="$link->id">
                                     <td class="font-bold">{{ $link->title }}</td>
                                     <td>
-                                        <a href="{{ url($link->alias) }}" class="link link-secondary">
+                                        <a href="{{ url($link->alias) }}" target="_blank" class="link link-secondary">
                                             {{ $link->aliasLabel() }}
                                         </a>
                                     </td>
-                                    <td class="font-bold">0</td>
+                                    <td class="font-bold">{{ $link->visits->count() }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="card-actions justify-center mt-4">
-                    <a href="{{ route('links.index') }}" class="btn btn-ghost btn-sm font-bold">View All Links</a>
+                    <a href="{{ route('links.index') }}" class="btn btn-ghost btn-sm font-bold">View all links</a>
                 </div>
             </div>
         </div>

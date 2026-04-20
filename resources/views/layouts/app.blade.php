@@ -38,7 +38,7 @@
 
                 <ul class="menu p-4 w-full grow text-base-content/80 gap-1">
                     <li>
-                        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }} flex gap-3 items-center py-3">
+                        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'menu-active' : '' }} flex gap-3 items-center py-3">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                             </svg>
@@ -46,7 +46,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('links.index') }}" class="{{ request()->routeIs('links.*') ? 'active' : '' }} flex gap-3 items-center py-3">
+                        <a href="{{ route('links.index') }}" class="{{ request()->routeIs('links.*') ? 'menu-active' : '' }} flex gap-3 items-center py-3">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                             </svg>

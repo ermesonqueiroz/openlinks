@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use function strlen;
 
 /**
@@ -16,6 +19,7 @@ use function strlen;
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
  * @property-read User $user
+ * @property-read Collection<int, Visit> $visits
  */
 #[Fillable(['alias', 'title', 'destination_url'])]
 final class Link extends Model
@@ -33,5 +37,13 @@ final class Link extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<Visit, $this>
+     */
+    public function visits(): HasMany
+    {
+        return $this->hasMany(Visit::class);
     }
 }
