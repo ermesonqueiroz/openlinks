@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['referer_host', 'referer_url', 'user_agent', 'platform'])]
 final class Visit extends Model
 {
+    use HasFactory;
+
     /**
      * @return BelongsTo<Link, $this>
      */
