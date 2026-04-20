@@ -1,4 +1,8 @@
 import Alpine from 'alpinejs';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
+window.Chart = Chart;
 
 Alpine.data('clipboard', (textToCopy = '') => ({
     copied: false,

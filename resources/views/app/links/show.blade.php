@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-4xl mx-auto space-y-6">
+    <div class="max-w-5xl mx-auto space-y-6">
         <!-- Breadcrumbs & Actions -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="text-sm breadcrumbs text-base-content/60 font-medium">
@@ -104,36 +104,100 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="lg:col-span-2">
-                <div class="card bg-base-100 border border-base-200 h-full">
-                    <div class="card-body px-8 text-center items-center justify-center relative py-10">
-                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-base-200 text-base-content/20 mb-4 absolute inset-8">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold">Analytics coming soon</h3>
-                            <p class="text-base-content/50 font-medium text-sm">Detailed insights for your links.</p>
-                        </div>
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Device Traffic Chart -->
+            <div class="card bg-base-100 border border-base-200 shadow-sm">
+                <div class="card-body p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-black">Devices</h3>
+                    </div>
+                    <div class="relative h-48 w-full flex justify-center items-center">
+                        <canvas id="devicesChart"></canvas>
+                        @if($devices->isEmpty())
+                            <div class="absolute text-base-content/20 font-bold">No data yet</div>
+                        @endif
                     </div>
                 </div>
             </div>
 
-            <div class="card bg-primary/10 border border-primary/20">
-                <div class="card-body p-8 flex flex-col justify-center">
-                    <h3 class="font-bold text-primary flex items-center gap-2 text-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                        </svg>
-                        Did you know?
-                    </h3>
-                    <p class="text-sm font-medium text-base-content/70 mt-3 leading-relaxed">
-                        Shortened links receive up to 34% more clicks than long, messy URLs. Keep them clean and trackable!
-                    </p>
+            <!-- Referrers Chart -->
+            <div class="card bg-base-100 border border-base-200 shadow-sm">
+                <div class="card-body p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-black">Referrers</h3>
+                    </div>
+                    <div class="relative h-48 w-full flex justify-center items-center">
+                        <canvas id="referrersChart"></canvas>
+                        @if($referrers->isEmpty())
+                            <div class="absolute text-base-content/20 font-bold">No data yet</div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
+
+        @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const chartConfig = (ctx, labels, data) => ({
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                '#7c3aed',
+                                '#3b82f6',
+                                '#10b981',
+                                '#f59e0b',
+                                '#ef4444'
+                            ],
+                            borderWidth: 0,
+                            hoverOffset: 20,
+                            cutout: '70%'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                align: 'center',
+                                labels: {
+                                    color: 'rgba(255, 255, 255, 0.5)',
+                                    usePointStyle: true,
+                                    padding: 15,
+                                    font: {
+                                        weight: 'bold',
+                                        size: 11
+                                    },
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Devices Chart
+                const devices = {!! json_encode($devices) !!};
+                const deviceLabels = Object.keys(devices);
+                const deviceData = Object.values(devices);
+                if (deviceLabels.length > 0) {
+                    new Chart(document.getElementById('devicesChart'), chartConfig(null, deviceLabels, deviceData));
+                }
+
+                // Referrers Chart
+                const referrers = {!! json_encode($referrers) !!};
+                const referrerLabels = Object.keys(referrers);
+                const referrerData = Object.values(referrers);
+                if (referrerLabels.length > 0) {
+                    new Chart(document.getElementById('referrersChart'), chartConfig(null, referrerLabels, referrerData));
+                }
+            });
+        </script>
+        @endpush
     </div>
 </x-app-layout>

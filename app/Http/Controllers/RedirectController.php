@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VisitPlatform;
 use App\Models\Link;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,14 +12,14 @@ class RedirectController extends Controller
 {
     public function __invoke(Link $link, Request $request): RedirectResponse
     {
-        $refererUrl = $request->headers->get('referer');
-        $refererHost = parse_url($refererUrl, PHP_URL_HOST);
+        $refererUrl = $request->headers->get('referer', 'direct');
+        $refererHost = parse_url($refererUrl, PHP_URL_HOST) ?? 'direct';
         $userAgent = $request->headers->get('user-agent');
         $platform = trim($request->headers->get('sec-ch-ua-platform'), '"');
 
         $link->visits()->create([
-            'referer_host' => $refererUrl,
-            'referer_url' => $refererHost,
+            'referer_host' => $refererHost,
+            'referer_url' => $refererUrl,
             'user_agent' => $userAgent,
             'platform' => $platform
         ]);

@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="openlinks-dark">
 <head>
     @include('layouts.components.head')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-base-200 font-sans antialiased">
     <div class="drawer lg:drawer-open">
@@ -62,7 +63,7 @@
                                 <span class="text-xs font-bold">{{ Auth::user()->initials() ?? 'U' }}</span>
                             </div>
                         </div>
-                        <div class="grow">
+                        <div class="grow min-w-0">
                             <p class="text-sm font-bold truncate">{{ Auth::user()->name ?? 'User' }}</p>
                             <p class="text-xs text-base-content/50 truncate">{{ Auth::user()->email ?? 'user@example.com' }}</p>
                         </div>
@@ -79,5 +80,6 @@
             </aside>
         </div>
     </div>
+    @stack('scripts')
 </body>
 </html>

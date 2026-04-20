@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateLinkRequest;
 use App\Models\Link;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class LinkController extends Controller
@@ -21,7 +22,23 @@ class LinkController extends Controller
 
     public function show(Link $link): View
     {
-        return view('app.links.show', compact('link'));
+        $devices = DB::table('visits')
+            ->join('links', 'links.id', '=', 'visits.link_id')
+            ->where('links.id', '=', $link->id)
+            ->groupBy('visits.platform')
+            ->selectRaw('visits.platform, COUNT(visits.platform) as count')
+            ->get()
+            ->pluck('count', 'platform');
+
+        $referrers = DB::table('visits')
+            ->join('links', 'links.id', '=', 'visits.link_id')
+            ->where('links.id', '=', $link->id)
+            ->groupBy('visits.referer_host')
+            ->selectRaw('visits.referer_host, COUNT(visits.referer_host) as count')
+            ->get()
+            ->pluck('count', 'referer_host');
+
+        return view('app.links.show', compact('link', 'devices', 'referrers'));
     }
 
     public function create(): View

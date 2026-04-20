@@ -77,7 +77,7 @@
                 <div class="divider my-2 text-base-content/30 text-xs uppercase tracking-widest">OR</div>
 
                 <div class="text-center">
-                    <a href="{{ route('login') }}" class="btn btn-outline btn-block border-base-300 hover:bg-base-200 hover:text-base-content hover:border-base-300">
+                    <a href="{{ route('register') }}" class="btn btn-outline btn-block border-base-300 hover:bg-base-200 hover:text-base-content hover:border-base-300">
                         Create an account
                     </a>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VisitPlatform;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $referer_host
  * @property string $referer_url
  * @property string $user_agent
- * @property string $platform
+ * @property VisitPlatform $platform
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
  * @property-read Visit $visit
@@ -29,5 +30,12 @@ final class Visit extends Model
     public function link(): BelongsTo
     {
         return $this->belongsTo(Link::class);
+    }
+
+    public function casts(): array
+    {
+        return [
+            'platform' => VisitPlatform::class
+        ];
     }
 }
