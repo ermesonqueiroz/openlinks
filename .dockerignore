@@ -1,0 +1,10 @@
+node_modules
+vendor
+.git
+.env
+storage/*.key
+public/storage
+public/build
+.phpunit.result.cache
+Docker/nginx/conf.d/default.conf
+docker-compose.yml
