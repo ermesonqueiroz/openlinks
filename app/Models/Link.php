@@ -6,7 +6,6 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -23,7 +22,7 @@ use function strlen;
  * @property-read Collection<int, Visit> $visits
  */
 #[Fillable(['alias', 'title', 'destination_url'])]
-final class Link extends Model
+final class Link extends BaseModel
 {
     use HasFactory;
 

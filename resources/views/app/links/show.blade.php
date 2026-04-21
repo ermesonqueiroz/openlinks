@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-5xl mx-auto space-y-6">
+    <div class="mx-auto space-y-6">
         <!-- Breadcrumbs & Actions -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="text-sm breadcrumbs text-base-content/60 font-medium">
@@ -29,9 +29,9 @@
         </div>
 
         <!-- Main Content -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-9 gap-6">
             <!-- Details Column -->
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-6">
                 <div class="card bg-base-100 border border-base-200 h-full">
                     <div class="card-body p-8">
                         <div class="flex items-center gap-3 mb-6">
@@ -73,66 +73,109 @@
                 </div>
             </div>
 
-            <!-- Sidebar Info -->
-            <div class="card bg-base-100 border border-base-200">
-                <div class="card-body p-6">
-                    <h3 class="font-bold text-sm uppercase tracking-widest text-base-content/40 mb-4">Information</h3>
+            <div class="lg:col-span-3">
+                <div class="card bg-base-100 border border-base-200">
+                    <div class="card-body p-6">
+                        <h3 class="font-bold text-sm uppercase tracking-widest text-base-content/40 mb-4">Information</h3>
 
-                    <div class="space-y-4 text-sm font-medium">
-                        <div class="flex justify-between items-center">
-                            <span class="text-base-content/50">Status</span>
-                            <span class="text-success">Active</span>
+                        <div class="space-y-4 text-sm font-medium">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base-content/50">Status</span>
+                                <span class="text-success">Active</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-base-content/50">Created</span>
+                                <span>{{ $link->created_at->format('M d, Y') }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-base-content/50">Last Updated</span>
+                                <span>{{ $link->updated_at->diffForHumans() }}</span>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-base-content/50">Created</span>
-                            <span>{{ $link->created_at->format('M d, Y') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-base-content/50">Last Updated</span>
-                            <span>{{ $link->updated_at->diffForHumans() }}</span>
-                        </div>
-                    </div>
 
-                    <div class="divider"></div>
+                        <div class="divider"></div>
 
-                    <div class="stats stats-vertical bg-transparent p-0">
-                        <div class="stat p-0">
-                            <div class="stat-title font-bold">Total Clicks</div>
-                            <div class="stat-value text-primary">{{ $link->visits->count() }}</div>
-                            <div class="stat-desc font-medium mt-1">From all sources</div>
+                        <div class="stats stats-vertical bg-transparent p-0">
+                            <div class="stat p-0">
+                                <div class="stat-title font-bold">Total Clicks</div>
+                                <div class="stat-value text-primary">{{ $link->visits->count() }}</div>
+                                <div class="stat-desc font-medium mt-1">From all sources</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Charts Row -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Device Traffic Chart -->
-            <div class="card bg-base-100 border border-base-200 shadow-sm">
-                <div class="card-body p-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-black">Devices</h3>
-                    </div>
-                    <div class="relative h-48 w-full flex justify-center items-center">
-                        <canvas id="devicesChart"></canvas>
-                        @if($devices->isEmpty())
-                            <div class="absolute text-base-content/20 font-bold">No data yet</div>
-                        @endif
+            <div class="lg:col-span-3">
+                <div class="card bg-base-100 border border-base-200 shadow-sm">
+                    <div class="card-body p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-black">Devices</h3>
+                        </div>
+                        <div class="relative h-48 w-full flex justify-center items-center">
+                            <canvas id="devicesChart"></canvas>
+                            @if($devices->isEmpty())
+                                <div class="absolute text-base-content/20 font-bold">No data yet</div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Referrers Chart -->
-            <div class="card bg-base-100 border border-base-200 shadow-sm">
-                <div class="card-body p-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-black">Referrers</h3>
+            <div class="lg:col-span-3">
+                <div class="card bg-base-100 border border-base-200 shadow-sm">
+                    <div class="card-body p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-black">Referrers</h3>
+                        </div>
+                        <div class="relative h-48 w-full flex justify-center items-center">
+                            <canvas id="referrersChart"></canvas>
+                            @if($referrers->isEmpty())
+                                <div class="absolute text-base-content/20 font-bold">No data yet</div>
+                            @endif
+                        </div>
                     </div>
-                    <div class="relative h-48 w-full flex justify-center items-center">
-                        <canvas id="referrersChart"></canvas>
-                        @if($referrers->isEmpty())
-                            <div class="absolute text-base-content/20 font-bold">No data yet</div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div class="card bg-base-100 border border-base-200 shadow-sm h-full">
+                    <div class="card-body p-8">
+                        <h3 class="text-xl font-black mb-6">Atividade</h3>
+
+                        @if($audits->isEmpty())
+                            <div class="flex flex-col items-center justify-center py-12 text-base-content/20">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12 mb-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                                <span class="font-bold">No activity recorded yet</span>
+                            </div>
+                        @else
+                            <div class="space-y-0">
+                                @foreach ($audits as $audit)
+                                    <div class="flex gap-4">
+                                        <div class="flex flex-col items-center">
+                                            <div class="avatar placeholder">
+                                                <div class="bg-neutral text-neutral-content rounded-full w-10 flex items-center justify-center">
+                                                    <span class="text-xs font-bold">{{ Auth::user()->initials() ?? 'U' }}</span>
+                                                </div>
+                                            </div>
+                                            @if(!$loop->last)
+                                                <div class="w-px grow bg-base-200 my-2"></div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <p class="mb-1">
+                                                <span class="font-bold">{{ $audit->user?->name ?? 'System' }}</span>
+                                                <span class="text-base-content/50">{{ $audit->event }} this link</span>
+                                            </p>
+                                            <div class="text-xs text-base-content/40 font-medium mb-3">
+                                                {{ $audit->created_at->format('M d, Y \a\t H:i') }} ({{ $audit->created_at->diffForHumans() }})
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         @endif
                     </div>
                 </div>

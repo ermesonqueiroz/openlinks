@@ -6,7 +6,6 @@ use App\Enums\VisitPlatform;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read Visit $visit
  */
 #[Fillable(['referer_host', 'referer_url', 'user_agent', 'platform'])]
-final class Visit extends Model
+final class Visit extends BaseModel
 {
     use HasFactory;
 

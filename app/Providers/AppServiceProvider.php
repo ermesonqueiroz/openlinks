@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -24,6 +25,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+        $this->configureMorhPah();
+    }
+
+    protected function configureMorhPah(): void
+    {
+        Relation::morphMap([
+            'user' => \App\Models\User::class,
+            'link' => \App\Models\Link::class,
+            'visit' => \App\Models\Link::class
+        ]);
     }
 
     /**

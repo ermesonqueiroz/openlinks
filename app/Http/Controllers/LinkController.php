@@ -38,7 +38,9 @@ class LinkController extends Controller
             ->get()
             ->pluck('count', 'referer_host');
 
-        return view('app.links.show', compact('link', 'devices', 'referrers'));
+        $audits = $link->audits()->with('user')->latest()->get();
+
+        return view('app.links.show', compact('link', 'devices', 'referrers', 'audits'));
     }
 
     public function create(): View
