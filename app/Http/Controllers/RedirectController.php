@@ -15,7 +15,7 @@ class RedirectController extends Controller
         $refererUrl = $request->headers->get('referer', 'direct');
         $refererHost = parse_url($refererUrl, PHP_URL_HOST) ?? 'direct';
         $userAgent = $request->headers->get('user-agent');
-        $platform = trim($request->headers->get('sec-ch-ua-platform'), '"');
+        $platform = trim($request->headers->get('sec-ch-ua-platform'), '"') ?? VisitPlatform::Unknown;
 
         $link->visits()->create([
             'referer_host' => $refererHost,
