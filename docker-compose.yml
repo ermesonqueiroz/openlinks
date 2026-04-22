@@ -14,6 +14,40 @@ services:
       - ./:/var/www/html
     networks:
       - openlinks
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    # Troque para a versão 'contrib'
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: openlinks-otel-collector
+    volumes:
+      - ./otel-config.yaml:/etc/otel-collector-config.yaml
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    networks:
+      - openlinks
+
+  loki:
+    image: grafana/loki:latest
+    container_name: openlinks-loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - openlinks
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: openlinks-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    networks:
+      - openlinks
+    depends_on:
+      - loki
 
   db:
     image: postgres:alpine

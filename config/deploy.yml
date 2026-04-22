@@ -32,6 +32,28 @@ accessories:
         - POSTGRES_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
+
+  otel:
+    image: otel/opentelemetry-collector-contrib:latest
+    host: links.zapsecreto.com.br
+    port: "4318:4318"
+    cmd: --config=/etc/otel-collector-config.yaml
+    files:
+      - otel-config.yaml:/etc/otel-collector-config.yaml
+
+  loki:
+    image: grafana/loki:latest
+    host: links.zapsecreto.com.br
+    port: "127.0.0.1:3100:3100"
+    cmd: -config.file=/etc/loki/local-config.yaml
+
+  grafana:
+    image: grafana/grafana:latest
+    host: links.zapsecreto.com.br
+    port: "127.0.0.1:3000:3000"
+    env:
+      clear:
+        GF_AUTH_ANONYMOUS_ENABLED: "false"
 env:
   clear:
     APP_NAME: OpenLinks
@@ -44,7 +66,14 @@ env:
     DB_PORT: 5432
     DB_DATABASE: openlinks
     DB_USERNAME: postgres
+    LOG_CHANNEL: otel
+    LOG_STACK: single
     LOG_LEVEL: error
+    OTEL_PHP_AUTOLOAD_ENABLED: true
+    OTEL_SERVICE_NAME: openlinks-web
+    OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+    OTEL_EXPORTER_OTLP_ENDPOINT: http://my-app-otel:4318
+    OTEL_LOGS_EXPORTER: otlp
   secret:
     - APP_KEY
     - DB_PASSWORD

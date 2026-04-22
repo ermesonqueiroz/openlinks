@@ -127,6 +127,10 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'otel' => [
+            'driver' => 'custom',
+            'via' => App\Logging\OtelChannel::class,
+        ]
     ],
 
 ];
