@@ -27,6 +27,16 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully!');
     }
 
+    public function show(User $user): View
+    {
+        $audits = \OwenIt\Auditing\Models\Audit::query()
+            ->where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        return view('app.users.show', compact('user', 'audits'));
+    }
+
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();

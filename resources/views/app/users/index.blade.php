@@ -45,7 +45,7 @@
                                 @foreach($users as $user)
                                     <tr class="hover:bg-base-200/50 transition-colors border-b border-base-200/50">
                                         <td class="pl-8">
-                                            <span class="font-bold text-base hover:text-primary transition-colors">{{ $user->name }}</span>
+                                            <a href="{{ route('users.show', $user->id) }}" class="font-bold text-base hover:text-primary transition-colors link link-primary">{{ $user->name }}</a>
                                             <div class="text-xs text-base-content/40 font-medium mt-0.5">Created {{ $user->created_at->diffForHumans() }}</div>
                                         </td>
                                         <td class="text-secondary text-sm">
