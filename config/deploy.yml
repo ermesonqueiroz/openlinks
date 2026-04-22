@@ -1,0 +1,50 @@
+service: my-app
+image: my-user/my-app
+ssh:
+  user: root
+  keys: ['~/.ssh/hetzner']
+servers:
+  web:
+    - links.zapsecreto.com.br
+proxy:
+  ssl: true
+  host: links.zapsecreto.com.br
+  app_port: 80
+  healthcheck:
+    path: /up
+registry:
+  server: localhost:5555
+builder:
+  arch: amd64
+aliases:
+  shell: app exec --interactive --reuse "sh"
+  tinker: app exec --interactive --reuse "php artisan tinker"
+asset_path: /var/www/html/public/build
+accessories:
+  db:
+    image: postgres:alpine
+    host: links.zapsecreto.com.br
+    port: 5432
+    env:
+      secret:
+        - POSTGRES_DB
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
+env:
+  clear:
+    APP_NAME: OpenLinks
+    APP_ENV: production
+    APP_DEBUG: false
+    APP_URL: https://links.zapsecreto.com.br
+    APP_DOMAIN: links.zapsecreto.com.br
+    DB_CONNECTION: pgsql
+    DB_HOST: my-app-db
+    DB_PORT: 5432
+    DB_DATABASE: openlinks
+    DB_USERNAME: postgres
+    LOG_LEVEL: error
+  secret:
+    - APP_KEY
+    - DB_PASSWORD
