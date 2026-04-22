@@ -2,7 +2,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="openlinks-dark">
 <head>
     @include('layouts.components.head')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-base-200 font-sans antialiased">
     <div class="drawer lg:drawer-open">
@@ -80,6 +79,7 @@
             </aside>
         </div>
     </div>
-    @stack('scripts')
+
+    @livewireScripts
 </body>
 </html>
