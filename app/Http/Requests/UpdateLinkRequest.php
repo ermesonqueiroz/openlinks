@@ -18,11 +18,11 @@ class UpdateLinkRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'destination_url' => ['required', 'url', 'max:2048'],
             'alias' => [
-                'required', 
-                'string', 
-                'min:3', 
-                'max:50', 
-                'alpha_dash', 
+                'required',
+                'string',
+                'min:1',
+                'max:50',
+                'alpha_dash',
                 Rule::unique('links')->ignore($this->route('link')),
             ],
         ];
