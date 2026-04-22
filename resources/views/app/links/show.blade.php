@@ -185,60 +185,69 @@
         @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                const chartConfig = (ctx, labels, data) => ({
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: data,
-                            backgroundColor: [
-                                '#7c3aed',
-                                '#3b82f6',
-                                '#10b981',
-                                '#f59e0b',
-                                '#ef4444'
-                            ],
-                            borderWidth: 0,
-                            hoverOffset: 20,
-                            cutout: '70%'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                                align: 'center',
-                                labels: {
-                                    color: 'rgba(255, 255, 255, 0.5)',
-                                    usePointStyle: true,
-                                    padding: 15,
-                                    font: {
-                                        weight: 'bold',
-                                        size: 11
-                                    },
+                const initCharts = () => {
+                    if (typeof Chart === 'undefined') {
+                        setTimeout(initCharts, 100);
+                        return;
+                    }
+
+                    const chartConfig = (labels, data) => ({
+                        type: 'doughnut',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    '#7c3aed',
+                                    '#3b82f6',
+                                    '#10b981',
+                                    '#f59e0b',
+                                    '#ef4444'
+                                ],
+                                borderWidth: 0,
+                                hoverOffset: 20,
+                                cutout: '70%'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                    align: 'center',
+                                    labels: {
+                                        color: 'rgba(255, 255, 255, 0.5)',
+                                        usePointStyle: true,
+                                        padding: 15,
+                                        font: {
+                                            weight: 'bold',
+                                            size: 11
+                                        },
+                                    }
                                 }
                             }
                         }
+                    });
+
+                    // Devices Chart
+                    const devices = {!! json_encode($devices) !!};
+                    const deviceLabels = Object.keys(devices);
+                    const deviceData = Object.values(devices);
+                    if (deviceLabels.length > 0) {
+                        new Chart(document.getElementById('devicesChart'), chartConfig(deviceLabels, deviceData));
                     }
-                });
 
-                // Devices Chart
-                const devices = {!! json_encode($devices) !!};
-                const deviceLabels = Object.keys(devices);
-                const deviceData = Object.values(devices);
-                if (deviceLabels.length > 0) {
-                    new Chart(document.getElementById('devicesChart'), chartConfig(null, deviceLabels, deviceData));
-                }
+                    // Referrers Chart
+                    const referrers = {!! json_encode($referrers) !!};
+                    const referrerLabels = Object.keys(referrers);
+                    const referrerData = Object.values(referrers);
+                    if (referrerLabels.length > 0) {
+                        new Chart(document.getElementById('referrersChart'), chartConfig(referrerLabels, referrerData));
+                    }
+                };
 
-                // Referrers Chart
-                const referrers = {!! json_encode($referrers) !!};
-                const referrerLabels = Object.keys(referrers);
-                const referrerData = Object.values(referrers);
-                if (referrerLabels.length > 0) {
-                    new Chart(document.getElementById('referrersChart'), chartConfig(null, referrerLabels, referrerData));
-                }
+                initCharts();
             });
         </script>
         @endpush

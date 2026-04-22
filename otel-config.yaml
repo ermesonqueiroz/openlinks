@@ -11,7 +11,7 @@ processors:
 
 exporters:
   otlphttp/loki:
-    endpoint: "http://loki:3100/otlp"
+    endpoint: "http://my-app-loki:3100/otlp"
     tls:
       insecure: true
   debug:
