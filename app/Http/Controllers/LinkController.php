@@ -16,7 +16,7 @@ class LinkController extends Controller
 {
     public function index(Request $request): View
     {
-        $links = $request->user()->links()->latest()->paginate(10);
+        $links = Link::query()->latest()->paginate(10);
         return view('app.links.index', compact('links'));
     }
 

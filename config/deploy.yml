@@ -22,7 +22,7 @@ aliases:
 asset_path: /var/www/html/public/build
 accessories:
   db:
-    image: postgres:alpine
+    image: postgres:16-alpine
     host: links.zapsecreto.com.br
     port: 5432
     env:
