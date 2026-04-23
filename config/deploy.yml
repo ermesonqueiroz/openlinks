@@ -72,8 +72,10 @@ env:
     OTEL_PHP_AUTOLOAD_ENABLED: true
     OTEL_SERVICE_NAME: openlinks-web
     OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
-    OTEL_EXPORTER_OTLP_ENDPOINT: http://my-app-otel:4318
+    OTEL_TRACES_EXPORTER: none
+    OTEL_METRICS_EXPORTER: none
     OTEL_LOGS_EXPORTER: otlp
+    OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: http://my-app-otel:4318/v1/logs
   secret:
     - APP_KEY
     - DB_PASSWORD
