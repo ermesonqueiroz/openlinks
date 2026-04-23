@@ -15,7 +15,8 @@ RUN install-php-extensions \
     zip \
     intl \
     opcache \
-    opentelemetry
+    opentelemetry \
+    imagick
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

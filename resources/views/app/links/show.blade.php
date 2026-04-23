@@ -110,6 +110,26 @@
                 <div class="card bg-base-100 border border-base-200 shadow-sm">
                     <div class="card-body p-8">
                         <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-black">QR Code</h3>
+                        </div>
+                        <div class="relative h-48 w-full flex justify-center items-center" x-data="{ loading: true }">
+                            <div x-show="loading" class="skeleton h-40 w-40"></div>
+                            <img
+                                src="{{ route('links.qr-code.image', ['link' => $link->id]) }}"
+                                alt="QR Code"
+                                class="h-full"
+                                x-show="!loading"
+                                @load="loading = false"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div class="card bg-base-100 border border-base-200 shadow-sm">
+                    <div class="card-body p-8">
+                        <div class="flex items-center justify-between mb-6">
                             <h3 class="text-xl font-black">Devices</h3>
                         </div>
                         <div class="relative h-48 w-full flex justify-center items-center">
@@ -138,9 +158,9 @@
                 </div>
             </div>
 
-            <div class="lg:col-span-3">
-                <div class="card bg-base-100 border border-base-200 shadow-sm h-full">
-                    <div class="card-body p-8">
+            <div class="lg:col-span-9">
+                <div class="card bg-base-100 border border-base-200 shadow-sm">
+                    <div class="card-body p-8 flex">
                         <h3 class="text-xl font-black mb-6">Atividade</h3>
 
                         @if($audits->isEmpty())

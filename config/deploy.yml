@@ -36,7 +36,7 @@ accessories:
   otel:
     image: otel/opentelemetry-collector-contrib:latest
     host: links.zapsecreto.com.br
-    port: "4318:4318"
+    port: 4318
     cmd: --config=/etc/otel-collector-config.yaml
     files:
       - otel-config.yaml:/etc/otel-collector-config.yaml
@@ -44,13 +44,13 @@ accessories:
   loki:
     image: grafana/loki:latest
     host: links.zapsecreto.com.br
-    port: "127.0.0.1:3100:3100"
+    port: 3100
     cmd: -config.file=/etc/loki/local-config.yaml
 
   grafana:
     image: grafana/grafana:latest
     host: links.zapsecreto.com.br
-    port: "127.0.0.1:3000:3000"
+    port: 3000
     env:
       clear:
         GF_AUTH_ANONYMOUS_ENABLED: "false"
@@ -64,8 +64,6 @@ env:
     DB_CONNECTION: pgsql
     DB_HOST: my-app-db
     DB_PORT: 5432
-    DB_DATABASE: openlinks
-    DB_USERNAME: postgres
     LOG_CHANNEL: otel
     LOG_STACK: single
     LOG_LEVEL: error
@@ -79,3 +77,5 @@ env:
   secret:
     - APP_KEY
     - DB_PASSWORD
+    - DB_DATABASE
+    - DB_USERNAME
